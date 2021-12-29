@@ -1,0 +1,84 @@
+
+
+# CREATE DATABASE deeppumadl；
+use deeppumadl；
+CREATE TABLE `users` (
+                         `user_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+                         `user_name` varchar(255) NOT NULL,
+                         `phone` varchar(255) NOT NULL,
+                         `password` varchar(255) NOT NULL,
+                         `salt` varchar(255) NOT NULL,
+                         `create_time` timestamp DEFAULT CURRENT_TIMESTAMP,
+                         `update_time` timestamp DEFAULT CURRENT_TIMESTAMP,
+                         `is_deleted` tinyint DEFAULT 0,
+                         PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `models` (
+                          `model_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+                          `model_type` varchar(255) DEFAULT NULL,
+                          `model_path` varchar(255) DEFAULT NULL,
+                          `model_name` varchar(255) NOT NULL,
+                          `dataset_id` int(11) unsigned NOT NULL,
+                          `version` varchar(255) NOT NULL,
+                          `train_status` tinyint DEFAULT 0,
+                          `create_time` timestamp DEFAULT CURRENT_TIMESTAMP,
+                          `update_time` timestamp DEFAULT CURRENT_TIMESTAMP,
+                          `is_deleted` tinyint DEFAULT 0,
+                          PRIMARY KEY (`model_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `samples` (
+                           `sample_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+                           `dataset_id` int(11) unsigned DEFAULT 0,
+                           `img_path` varchar(255) NOT NULL,
+                           `status` tinyint DEFAULT 0,
+                           `create_time` timestamp DEFAULT CURRENT_TIMESTAMP,
+                           `update_time` timestamp DEFAULT CURRENT_TIMESTAMP,
+                           `is_deleted` tinyint DEFAULT 0,
+                           PRIMARY KEY (`sample_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `labels` (
+                          `label_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+                          `label_name` varchar(255) NOT NULL,
+                          `labelset_id` int(11) unsigned NOT NULL,
+                          `create_time` timestamp DEFAULT CURRENT_TIMESTAMP,
+                          `update_time` timestamp DEFAULT CURRENT_TIMESTAMP,
+                          `is_deleted` tinyint DEFAULT 0,
+                          PRIMARY KEY (`label_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `labelsets` (
+                             `labelset_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+                             `labelset_name` varchar(255) NOT NULL,
+                             `create_time` timestamp DEFAULT CURRENT_TIMESTAMP,
+                             `update_time` timestamp DEFAULT CURRENT_TIMESTAMP,
+                             `is_deleted` tinyint DEFAULT 0,
+                             PRIMARY KEY (`labelset_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `datasets` (
+                            `dataset_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+                            `labelset_id` int(11) unsigned NOT NULL,
+                            `dataset_name` varchar(255) NOT NULL,
+                            `status` tinyint DEFAULT 0,
+                            `create_time` timestamp DEFAULT CURRENT_TIMESTAMP,
+                            `update_time` timestamp DEFAULT CURRENT_TIMESTAMP,
+                            `is_deleted` tinyint DEFAULT 0,
+                            PRIMARY KEY (`dataset_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `annotations` (
+                               `annotation_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+                               `label_id` int(11) unsigned NOT NULL,
+                               `example_id` int(11) NOT NULL,
+                               `x1` int(11) DEFAULT 0,
+                               `y1` int(11) DEFAULT 0,
+                               `x2` int(11) DEFAULT 0,
+                               `y2` int(11) DEFAULT 0,
+                               `create_time` timestamp DEFAULT CURRENT_TIMESTAMP,
+                               `update_time` timestamp DEFAULT CURRENT_TIMESTAMP,
+                               `is_deleted` tinyint DEFAULT 0,
+                               PRIMARY KEY (`annotation_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
